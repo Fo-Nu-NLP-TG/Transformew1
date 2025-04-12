@@ -1,83 +1,46 @@
-# Transformer Model for Ewe-English Translation
+# FoNu Transformer V1
 
-This directory contains an implementation of the Transformer model based on the "Attention Is All You Need" paper, adapted for Ewe-English translation.
+This repository contains our first attempt at implementing a transformer-based model for Ewe-English translation. While this implementation faced several challenges and limitations, it serves as an important learning resource and foundation for our improved implementations.
 
-## Files
+## Project Status
 
-- `model_utils.py`: Core transformer components (LayerNorm, Encoder, Decoder, etc.)
-- `encode_decode.py`: The EncodeDecode model that combines encoder and decoder
-- `inference.py`: Inference script for testing the transformer model
-- `train_transformer_cli.py`: Command-line script for training the transformer model
-- `train_transformer_fixed.ipynb`: Jupyter notebook for training the transformer model
-- `visualization.py`: Utilities for visualizing transformer components
+⚠️ **Note**: This is an archived version with known issues. For our current implementation, see [FoNu_Transformer_V2](https://github.com/FoNuNLPTG/FoNu_Transformer_V2).
 
-## Training the Model
+## Key Challenges Encountered
 
-### Using the Command-Line Script
+- Output dimension mismatch between model (512) and target vocabulary size (8000)
+- Import path issues in various execution environments
+- Training instability with low-resource language pairs
+- Memory management issues with large batch sizes
 
-The easiest way to train the model is to use the command-line script:
+## Lessons Learned
 
-```bash
-# From the project root directory
-python train_transformer.py --data_dir ./data/processed --src_lang ewe --tgt_lang english
+- Proper dimension handling in the generator layer is critical
+- Consistent import structure is necessary for reproducibility
+- Low-resource languages require specialized data augmentation
+- Careful hyperparameter tuning is essential for stable training
+
+## Repository Structure
+
+```
+FoNu_Transformer_V1/
+├── model_utils.py          # Core transformer components
+├── encode_decode.py        # EncodeDecode model implementation
+├── train_transformer.py    # Training script with known issues
+├── inference.py            # Inference script
+├── training_fixes/         # Documentation of attempted fixes
+└── documentation/          # Additional documentation
 ```
 
-Or you can run the CLI script directly:
+## How We've Improved
 
-```bash
-# From the project root directory
-python Attention_Is_All_You_Need/train_transformer_cli.py --data_dir ./data/processed --src_lang ewe --tgt_lang english
-```
+The key issues in this implementation have been addressed in our newer versions by:
 
-### Command-Line Arguments
+1. Properly handling output dimensions in the generator layer
+2. Implementing robust import structures
+3. Adding specialized data augmentation for low-resource languages
+4. Improving training stability with gradient accumulation
 
-- `--data_dir`: Directory with processed data (default: "./data/processed")
-- `--src_lang`: Source language (default: "ewe")
-- `--tgt_lang`: Target language (default: "english")
-- `--tokenizer_type`: Type of tokenizer to use, either "sentencepiece" or "huggingface" (default: "sentencepiece")
-- `--batch_size`: Batch size (default: 32)
-- `--epochs`: Number of epochs (default: 10)
-- `--lr`: Learning rate (default: 0.0001)
-- `--d_model`: Model dimension (default: 512)
-- `--d_ff`: Feed-forward dimension (default: 2048)
-- `--heads`: Number of attention heads (default: 8)
-- `--layers`: Number of encoder/decoder layers (default: 6)
-- `--dropout`: Dropout rate (default: 0.1)
-- `--max_len`: Maximum sequence length (default: 128)
-- `--save_dir`: Directory to save models (default: "./models")
+## License
 
-### Using the Jupyter Notebook
-
-Alternatively, you can use the Jupyter notebook:
-
-```bash
-# From the project root directory
-jupyter notebook Attention_Is_All_You_Need/train_transformer_fixed.ipynb
-```
-
-## Inference
-
-To run inference with a trained model:
-
-```bash
-python Attention_Is_All_You_Need/inference.py --model-path models/transformer_ewe_english_final.pt --test-file test.txt
-```
-
-## Troubleshooting
-
-### Import Errors
-
-If you encounter import errors, make sure you're running the scripts from the project root directory. The scripts add the necessary directories to the Python path, but they need to be run from the correct location.
-
-### Data Preparation
-
-Before training, make sure you have prepared the data and trained the tokenizers. See the `data_processing` directory for scripts to prepare the data and train tokenizers.
-
-### CUDA Out of Memory
-
-If you encounter CUDA out of memory errors, try reducing the batch size, model dimension, or maximum sequence length.
-
-## References
-
-- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
-- [The Annotated Transformer](https://nlp.seas.harvard.edu/annotated-transformer/)
+MIT License
